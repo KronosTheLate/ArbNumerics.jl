@@ -1,3 +1,17 @@
+#=
+Apparently, the Arb C library requires higher precision to get some bessel functions right. I will continue pursuing this to better resolve the setup .. or else internally boost precision for such functions and then reset it, once the computation completes).  Meanwhile there is a way for you to work well now.
+using ArbNumerics
+setworkingprecision(ArbFloat, 256-8); setextrabits(64-12);
+for T in (:ArbFloat, :ArbReal)
+  @eval function clean(x::$T)
+            visiblebits = workingprecision($T) - extrabits($T)
+            effectivebits = Int(fld(visiblebits, sqrt(2)))
+            return $T{effectivebits}(x)
+         end
+end
+besselk_1_50 = clean(besselk(1.0, ArbFloat(50.0)))
+=#
+
 const ST = Union{Int32, Int64, Float32, Float64}
 
 for (A,F) in ((:besselj, :arb_hypgeom_bessel_j), (:bessely, :arb_hypgeom_bessel_y),
