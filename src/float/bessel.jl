@@ -1,5 +1,11 @@
 #=
-Apparently, the Arb C library requires higher precision to get some bessel functions right. I will continue pursuing this to better resolve the setup .. or else internally boost precision for such functions and then reset it, once the computation completes).  Meanwhile there is a way for you to work well now.
+Michael Helton
+
+Apparently, the Arb C library requires higher precision to get some bessel functions right. 
+I will continue pursuing this to better resolve the setup .. or else internally boost precision
+for such functions and then reset it, once the computation completes).  Meanwhile there is a way
+for you to work well now.
+
 using ArbNumerics
 setworkingprecision(ArbFloat, 256-8); setextrabits(64-12);
 for T in (:ArbFloat, :ArbReal)
